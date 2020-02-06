@@ -14,11 +14,38 @@ struct VFXView: UIViewRepresentable {
     func updateUIView(_ uiView: VFXView.UIViewType, context: UIViewRepresentableContext<Self>) { uiView.effect = effect }
 }
 
+struct PaymentView: View {
+    var body: some View {
+        
+        HStack(alignment: .center) {
+            VStack(alignment: .leading) {
+                Text("Total you'll pay")
+                    .font(.system(size: 14))
+                    .foregroundColor(Color.gray)
+                
+                Text("1,536.00")
+                    .font(.system(size: 20))
+            }
+            
+            Spacer()
+            Image(systemName: "checkmark.circle.fill").renderingMode(.template)
+                .foregroundColor(Color.init("ColumbiaBlue"))
+                .font(.system(size: 24))
+            
+            Text("Split Payment")
+                .font(.system(size: 16))
+                .fontWeight(.semibold)
+        }.padding()
+    }
+}
+
 struct FlightInfoView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("Flight").foregroundColor(Color.gray)
+                Text("Flight")
+                    .font(.system(size: 14))
+                    .foregroundColor(Color.gray)
                 Text("AR 712")
             }
             
@@ -60,8 +87,8 @@ struct PersonCardView: View {
                 .shadow(color: Color.init(white: 0.9), radius: 10, x: 0, y: 10)
             
             VStack(spacing: 0) {
-                PersonInfoView()
-                PersonInfoView()
+                PersonInfoView(name: "Jessie J.", email: "jessy@gmail.com", imageName: "male")
+                PersonInfoView(name: "Andrea R.", email: "andrea@gmail.com", imageName: "female")
             }
         }
     }
@@ -112,6 +139,8 @@ struct PlaneCardView: View {
                     .frame(height: 210)
                 
                 Spacer()
+                
+                PaymentView()
             }
             
         }.padding()
@@ -119,10 +148,17 @@ struct PlaneCardView: View {
 }
 
 struct PersonView: View {
+    
+    var imageName: String = "male" //Hacky I know!
+    
+    init(imageName: String) {
+        self.imageName = imageName
+    }
+    
     var body: some View {
         
         ZStack {
-            Image("male")
+            Image(imageName)
                 .resizable()
                 .frame(width: 50, height: 50)
                 .clipShape(Circle())
@@ -143,11 +179,20 @@ struct PersonView: View {
 }
 
 struct PersonInfoView: View {
+    var name: String = ""
+    var email: String = ""
+    var imageName: String = ""
+    
+    init(name: String, email: String, imageName: String) {
+        self.name = name
+        self.email = email
+        self.imageName = imageName
+    }
     var body: some View {
         HStack {
             VStack() {
-                Text("Jessy J.").font(.title)
-                Text("jessy@gmail.com").font(.footnote)
+                Text(name).font(.title)
+                Text(email).font(.footnote)
                     .foregroundColor(.gray)
             }
             
@@ -161,7 +206,7 @@ struct PersonInfoView: View {
                     .foregroundColor(.white)
             }.padding(.trailing, 20)
             
-            PersonView()
+            PersonView(imageName: imageName)
             
         }.padding()
     }
@@ -208,6 +253,41 @@ struct BackgroundView: View {
     }
 }
 
+struct ButtonView: View {
+    
+    let gradientColors = Gradient(colors: [Color.init(red: 103/255, green: 140/255, blue: 242/255),
+                                           Color.init(red: 83/255, green: 165/255, blue: 246/255)])
+    
+    var body: some View {
+        let gradient = LinearGradient(gradient: gradientColors, startPoint: .leading, endPoint: .trailing)
+        
+        return HStack {
+            Image(systemName: "keyboard").renderingMode(.template)
+                .foregroundColor(.gray)
+                .font(.system(size: 30))
+            
+            Spacer()
+            
+            Button(action: {}, label: { Text("Book Flight") })
+                .padding()
+                .padding(.leading)
+                .padding(.trailing)
+                .foregroundColor(.white)
+                .background(RoundedRectangle(cornerRadius: .infinity)
+                    .fill(gradient)
+                    .shadow(color: Color.init(red: 197/255, green: 216/255, blue: 248/255), radius: 8, x: 0, y: 7)
+                    
+            )
+            
+            Spacer()
+            
+            Image(systemName: "mic").renderingMode(.template)
+                .foregroundColor(.gray)
+                .font(.system(size: 30))
+        }.padding()
+    }
+}
+
 struct ContentView: View {
     var body: some View {
         
@@ -221,6 +301,7 @@ struct ContentView: View {
             VStack {
                 NavigationView()
                 Spacer()
+                ButtonView()
             }
         }
     }
