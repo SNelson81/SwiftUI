@@ -264,7 +264,7 @@ struct ButtonView: View {
         return HStack {
             Image(systemName: "keyboard").renderingMode(.template)
                 .foregroundColor(.gray)
-                .font(.system(size: 30))
+                .font(.system(size: 20))
             
             Spacer()
             
@@ -283,7 +283,7 @@ struct ButtonView: View {
             
             Image(systemName: "mic").renderingMode(.template)
                 .foregroundColor(.gray)
-                .font(.system(size: 30))
+                .font(.system(size: 20))
         }.padding()
     }
 }
@@ -302,6 +302,8 @@ struct ContentView: View {
                 NavigationView()
                 Spacer()
                 ButtonView()
+                    .padding(.leading)
+                    .padding(.trailing)
             }
         }
     }
